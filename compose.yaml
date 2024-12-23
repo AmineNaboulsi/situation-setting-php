@@ -1,0 +1,19 @@
+version: "3.8"
+services: 
+  mysql:
+    image: mysql
+    restart: always
+    environment:  
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dbsituation
+      MYSQL_USER: amineremote
+      MYSQL_PASSWORD: amine
+    ports:
+      - "3305:3306"
+  apache:
+    image: php:8.2-apache
+    restart: always
+    ports: 
+     - "81:80"
+    volumes:
+     - ./public:/var/www/html

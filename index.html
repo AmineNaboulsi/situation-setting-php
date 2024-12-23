@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="Css/output.css">
+</head>
+<body>
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+          <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+          <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Register Page</h2>
+        </div>
+      
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form id="formregister" class="space-y-6" method="GET">
+            <div>
+              <label for="email" class="block text-sm/6 font-medium text-gray-900">Name</label>
+              <div class="mt-2">
+                <input type="text" name="name" id="name" autocomplete="name" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+              </div>
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
+              <div class="mt-2">
+                <input type="text" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+              </div>
+            </div>
+      
+           
+            <select name="" id="selectrole">
+   
+            </select>
+            <div>
+              <button onclick="SubmitData(event)" type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+            </div>
+          </form>
+      
+        </div>
+      </div>
+
+      <script>
+
+        document.addEventListener('DOMContentLoaded' , ()=>{
+          fetch('http://localhost:8484/getroles')
+          .then(res=>res.json())
+          .then(data=>{
+            console.log(data)
+            data && data.forEach((role) => {
+              const row = document.createElement('option');
+              row.value = ``+role.Id;
+              row.innerHTML = ``+role.name;
+              document.getElementById('selectrole').appendChild(row);
+            });
+          })
+        })
+
+        // formregister.addEventListener('onSubmit' , ()=>{
+        //   alert('vsvsd');
+        // })
+
+
+        function SubmitData(e){
+          e.preventDefault();
+          // let formData = new FormData();
+          // formData.append(document.getElementById('name')?.value);
+          // formData.append(document.getElementById('email')?.value);
+          // formData.append(document.getElementById('roleid')?.value);
+
+          let parametres = new URLSearchParams({
+            name : document.getElementById('name')?.value,
+            email : document.getElementById('email')?.value,
+            roleid : document.getElementById('roleid')?.value,
+          })
+
+          // console.log(parametres)
+       
+          fetch(`http://localhost:8484/adduser`,{
+            method : 'POST' ,
+            body : parametres
+          })
+          .then(res=>res.json())
+          .then(data=>{
+            alert(data.message)
+          })
+        }
+      </script>
+</body>
+</html>
