@@ -10,6 +10,7 @@ CREATE TABLE Role
 )
 INSERT INTO Role (name) VALUES ('admin'),('user');
 
+
 CREATE TABLE User
 (
     Id INT AUTO_INCREMENT,
